@@ -1,11 +1,26 @@
+// @ts-check
+
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
+import prettier from 'eslint-plugin-prettier/recommended';
 
-const eslintConfig = defineConfig([
+export default defineConfig(
+  eslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
+  prettier,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
     '.next/**',
@@ -13,6 +28,10 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
   ]),
-]);
-
-export default eslintConfig;
+  {
+    rules: {
+      'prettier/prettier': 'warn',
+      '@typescript-eslint/require-await': 'off',
+    },
+  },
+);
