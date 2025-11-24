@@ -1,0 +1,27 @@
+set -eu
+
+# Run all checks concurrently and fail if any fails.
+
+(yarn type-check) & p1=$!
+(yarn lint --max-warnings 0) & p2=$!
+
+cleanup() {
+  # Kill any remaining jobs quietly
+  kill "$p1" "$p2" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
+
+status=0
+for pid in $p1 $p2; do
+  if ! wait "$pid"; then
+    status=1
+    break
+  fi
+done
+
+# If one failed, ensure others are terminated
+if [ "$status" -ne 0 ]; then
+  kill "$p1" "$p2" 2>/dev/null || true
+fi
+
+exit "$status"
