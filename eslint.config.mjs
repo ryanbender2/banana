@@ -32,6 +32,7 @@ export default defineConfig(
     rules: {
       'prettier/prettier': 'warn',
       '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
     },
   },
 );
