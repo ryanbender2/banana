@@ -5,6 +5,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "17000:3000"
-    environment:
-      - NODE_ENV=production
     restart: unless-stopped
