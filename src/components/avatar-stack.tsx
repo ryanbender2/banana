@@ -53,10 +53,10 @@ const AvatarStack = ({
               <AvatarImage src={image} />
               <AvatarFallback>
                 {name
-                  ?.split(' ')
-                  ?.map(word => word[0])
-                  ?.join('')
-                  ?.toUpperCase()}
+                  .split(' ')
+                  .map(word => word[0])
+                  .join('')
+                  .toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </TooltipTrigger>

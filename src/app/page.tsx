@@ -5,33 +5,37 @@ import { SiteHeader } from '@/components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { redirect } from 'next/navigation';
 
-import { createClient } from '@/lib/supabase/server';
-import StoreHydrate from '@/lib/jotai';
-import { db } from '@/db';
-import { eq } from 'drizzle-orm';
-import * as schema from '@/db/schema';
-import { User } from '@/atoms/user';
 import StateSetters from '@/atoms/StateSetters';
+import { User } from '@/atoms/user';
 import { RealtimeCursors } from '@/components/realtime-cursors';
+import StoreHydrate from '@/lib/jotai';
+import { createClient } from '@/lib/supabase/server';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Banana',
+  description: 'Banana is a minecraft server manager.',
+};
 
 export default async function Home() {
   const supabase = await createClient();
 
   const { data: authData, error } = await supabase.auth.getClaims();
-  const authUser = await supabase.auth.getUser();
-  if (error || !authData?.claims || !authUser.data.user?.id) {
+  if (error || !authData?.claims) {
     redirect('/auth/login');
     return null;
   }
 
-  const dbUser = await db.query.user.findFirst({
-    where: eq(schema.user.id, authUser.data.user?.id),
-  });
+  const authUser = authData.claims;
 
   const user: User = {
-    name: dbUser?.name ?? '',
-    email: authUser.data.user?.email ?? '',
-    avatar: dbUser?.avatarPath ?? '',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    name: authUser.user_metadata?.full_name ?? 'Unknown User',
+    email: authUser.email ?? '',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    avatar:
+      authUser.user_metadata?.picture ??
+      'https://avatar.iran.liara.run/public/11',
   };
 
   return (

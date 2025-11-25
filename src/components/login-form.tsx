@@ -1,110 +1,61 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import icon from '@/assets/icon.png';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { createClient } from '@/lib/supabase/client';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { IconBrandDiscord } from '@tabler/icons-react';
+import { AlertCircle } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
+import { BackgroundGradientAnimation } from './ui/background-gradient-animation';
+import ColourfulText from './ui/colourful-text';
+import { HoverBorderGradient } from './ui/hover-border-gradient';
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export const LoginForm = () => {
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSocialLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const supabase = createClient();
-    setIsLoading(true);
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'discord',
+        options: {
+          redirectTo: `${window.location.origin}/auth/oauth?next=/`,
+        },
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push('/');
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred');
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/auth/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : 'Login'}
-              </Button>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{' '}
-              <Link
-                href="/auth/sign-up"
-                className="underline underline-offset-4"
-              >
-                Sign up
-              </Link>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+    <BackgroundGradientAnimation>
+      <div className="pointer-events-none absolute inset-0 z-50 flex flex-col items-center justify-center gap-8 px-4 text-center text-3xl font-bold text-white md:text-4xl lg:text-7xl">
+        <Image src={icon} alt="Banana" className="aspect-square w-13" />
+        <p className="bg-linear-to-b from-white/90 to-white/30 bg-clip-text text-transparent drop-shadow-2xl">
+          Welcome to <ColourfulText text="Banana" className="underline" />
+        </p>
+        <HoverBorderGradient
+          containerClassName="pointer-events-auto text-lg hover:scale-105 active:scale-95"
+          className="flex items-center gap-1"
+          onClick={handleSocialLogin}
+        >
+          Continue with Discord <IconBrandDiscord />
+        </HoverBorderGradient>
+        <Alert
+          variant="destructive"
+          className={cn('w-min', error ? 'block' : 'hidden')}
+        >
+          <AlertCircle />
+          <AlertTitle>Uh oh!</AlertTitle>
+          <AlertDescription className="min-w-50">{error}</AlertDescription>
+        </Alert>
+      </div>
+    </BackgroundGradientAnimation>
   );
-}
+};

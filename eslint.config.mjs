@@ -9,7 +9,7 @@ import prettier from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig(
   eslint.configs.recommended,
-  tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
   prettier,
   {
@@ -36,6 +36,9 @@ export default defineConfig(
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-unsafe-enum-comparison': 'off',
+      '@typescript-eslint/no-dynamic-delete': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'warn',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
     },
   },
 );

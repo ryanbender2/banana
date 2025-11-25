@@ -18,7 +18,7 @@ export default async function Page({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {params?.error ? (
+              {params.error ? (
                 <p className="text-muted-foreground text-sm">
                   Code error: {params.error}
                 </p>

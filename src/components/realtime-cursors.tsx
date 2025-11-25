@@ -11,7 +11,7 @@ export const RealtimeCursors = ({ roomName }: { roomName: string }) => {
   const user = useAtomValue(userAtom);
   const { cursors } = useRealtimeCursors({
     roomName,
-    username: user?.name ?? '',
+    username: user.name,
     throttleMs: THROTTLE_MS,
   });
 

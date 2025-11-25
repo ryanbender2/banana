@@ -9,8 +9,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  * Throttle a callback to a certain delay, It will only call the callback if the delay has passed, with the arguments
  * from the last call
  */
-const useThrottleCallback = <Params extends unknown[], Return>(
-  callback: (...args: Params) => Return,
+const useThrottleCallback = <Params extends unknown[]>(
+  callback: (...args: Params) => unknown,
   delay: number,
 ) => {
   const lastCall = useRef(0);
@@ -83,6 +83,10 @@ export const useRealtimeCursors = ({
 
   const callback = useCallback(
     (event: MouseEvent) => {
+      if (!username) {
+        return;
+      }
+
       const { clientX, clientY } = event;
 
       const payload: CursorEventPayload = {
@@ -112,6 +116,10 @@ export const useRealtimeCursors = ({
   const handleMouseMove = useThrottleCallback(callback, throttleMs);
 
   useEffect(() => {
+    if (!username) {
+      return;
+    }
+
     const channel = supabase.channel(roomName);
 
     channel
@@ -174,9 +182,13 @@ export const useRealtimeCursors = ({
       channelRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [username]);
 
   useEffect(() => {
+    if (!username) {
+      return;
+    }
+
     // Add event listener for mousemove
     window.addEventListener('mousemove', handleMouseMove);
 
@@ -184,7 +196,7 @@ export const useRealtimeCursors = ({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [handleMouseMove]);
+  }, [handleMouseMove, username]);
 
   return { cursors };
 };

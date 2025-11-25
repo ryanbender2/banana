@@ -37,7 +37,7 @@ export const usePresenceSetter = () => {
   );
 
   useEffect(() => {
-    if (!user) {
+    if (!user.email) {
       return;
     }
 
