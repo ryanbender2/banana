@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import {
   IconCamera,
   IconChartBar,
@@ -18,7 +17,9 @@ import {
   IconSettings,
   IconUsers,
 } from '@tabler/icons-react';
+import * as React from 'react';
 
+import { userAtom } from '@/atoms/user';
 import { NavDocuments } from '@/components/nav-documents';
 import { NavMain } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
@@ -32,9 +33,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { getCurrentUser } from '@/lib/user';
-import { useEffect, useState } from 'react';
-import { User } from '@supabase/supabase-js';
+import { useAtomValue } from 'jotai';
 
 const data = {
   user: {
@@ -156,12 +155,7 @@ const data = {
 export const AppSidebar = ({
   ...props
 }: React.ComponentProps<typeof Sidebar>) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    getCurrentUser().then(setUser);
-  }, []);
-
+  const user = useAtomValue(userAtom);
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -185,13 +179,7 @@ export const AppSidebar = ({
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser
-          user={{
-            name: (user?.user_metadata.full_name as string) ?? '',
-            email: user?.email ?? '',
-            avatar: (user?.user_metadata.avatar_url as string) ?? '',
-          }}
-        />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

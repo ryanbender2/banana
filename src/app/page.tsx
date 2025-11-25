@@ -6,38 +6,58 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { redirect } from 'next/navigation';
 
 import { createClient } from '@/lib/supabase/server';
+import StoreHydrate from '@/lib/jotai';
+import { db } from '@/db';
+import { eq } from 'drizzle-orm';
+import * as schema from '@/db/schema';
+import { User } from '@/atoms/user';
 
 export default async function Home() {
   const supabase = await createClient();
 
   const { data: authData, error } = await supabase.auth.getClaims();
-  if (error || !authData?.claims) {
+  const authUser = await supabase.auth.getUser();
+  if (error || !authData?.claims || !authUser.data.user?.id) {
     redirect('/auth/login');
+    return null;
   }
 
+  const dbUser = await db.query.user.findFirst({
+    where: eq(schema.user.id, authUser.data.user?.id),
+  });
+
+  const user: User = {
+    name: dbUser?.name ?? '',
+    email: authUser.data.user?.email ?? '',
+    avatar: dbUser?.avatarPath ?? '',
+  };
+
   return (
-    <SidebarProvider
-      style={
-        {
-          '--sidebar-width': 'calc(var(--spacing) * 72)',
-          '--header-height': 'calc(var(--spacing) * 12)',
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <SectionCards />
-              <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
+    <>
+      <SidebarProvider
+        style={
+          {
+            '--sidebar-width': 'calc(var(--spacing) * 72)',
+            '--header-height': 'calc(var(--spacing) * 12)',
+          } as React.CSSProperties
+        }
+      >
+        <AppSidebar variant="inset" />
+        <SidebarInset>
+          <SiteHeader />
+          <div className="flex flex-1 flex-col">
+            <div className="@container/main flex flex-1 flex-col gap-2">
+              <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <SectionCards />
+                <div className="px-4 lg:px-6">
+                  <ChartAreaInteractive />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+        </SidebarInset>
+      </SidebarProvider>
+      <StoreHydrate user={user} />
+    </>
   );
 }

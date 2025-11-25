@@ -45,6 +45,9 @@ export function SignUpForm({
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/`,
+          data: {
+            full_name: 'John Doe',
+          },
         },
       });
       if (error) throw error;
