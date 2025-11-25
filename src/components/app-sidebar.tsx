@@ -32,6 +32,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { getCurrentUser } from '@/lib/user';
+import { useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
 
 const data = {
   user: {
@@ -150,7 +153,15 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export const AppSidebar = ({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) => {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    getCurrentUser().then(setUser);
+  }, []);
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -174,8 +185,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: (user?.user_metadata.full_name as string) ?? '',
+            email: user?.email ?? '',
+            avatar: (user?.user_metadata.avatar_url as string) ?? '',
+          }}
+        />
       </SidebarFooter>
     </Sidebar>
   );
-}
+};
