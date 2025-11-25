@@ -2,8 +2,8 @@ set -eu
 
 # Run all checks concurrently and fail if any fails.
 
-(yarn type-check) & p1=$!
-(yarn lint --max-warnings 0) & p2=$!
+(pnpm type-check) & p1=$!
+(pnpm lint --max-warnings 0) & p2=$!
 
 cleanup() {
   # Kill any remaining jobs quietly
