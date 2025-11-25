@@ -1,20 +1,17 @@
 'use client';
 
+import { userAtom } from '@/atoms/user';
 import { Cursor } from '@/components/cursor';
 import { useRealtimeCursors } from '@/hooks/use-realtime-cursors';
+import { useAtomValue } from 'jotai';
 
-const THROTTLE_MS = 50;
+const THROTTLE_MS = 40;
 
-export const RealtimeCursors = ({
-  roomName,
-  username,
-}: {
-  roomName: string;
-  username: string;
-}) => {
+export const RealtimeCursors = ({ roomName }: { roomName: string }) => {
+  const user = useAtomValue(userAtom);
   const { cursors } = useRealtimeCursors({
     roomName,
-    username,
+    username: user?.name ?? '',
     throttleMs: THROTTLE_MS,
   });
 

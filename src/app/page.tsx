@@ -12,6 +12,7 @@ import { eq } from 'drizzle-orm';
 import * as schema from '@/db/schema';
 import { User } from '@/atoms/user';
 import StateSetters from '@/atoms/StateSetters';
+import { RealtimeCursors } from '@/components/realtime-cursors';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -35,6 +36,7 @@ export default async function Home() {
 
   return (
     <>
+      <RealtimeCursors roomName="banana_cursors_01" />
       <SidebarProvider
         style={
           {
