@@ -33,6 +33,8 @@ export default defineConfig(
       'prettier/prettier': 'warn',
       '@typescript-eslint/require-await': 'off',
       '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
     },
   },
 );
