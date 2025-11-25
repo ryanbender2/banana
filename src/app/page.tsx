@@ -11,6 +11,7 @@ import { db } from '@/db';
 import { eq } from 'drizzle-orm';
 import * as schema from '@/db/schema';
 import { User } from '@/atoms/user';
+import StateSetters from '@/atoms/StateSetters';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -58,6 +59,7 @@ export default async function Home() {
         </SidebarInset>
       </SidebarProvider>
       <StoreHydrate user={user} />
+      <StateSetters />
     </>
   );
 }

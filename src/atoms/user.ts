@@ -1,9 +1,9 @@
-import { atom, ExtractAtomValue } from 'jotai';
+import { atom } from 'jotai';
 
-export const userAtom = atom({
-  name: '',
-  email: '',
-  avatar: '',
-});
+export interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
 
-export type User = ExtractAtomValue<typeof userAtom>;
+export const userAtom = atom<User>();

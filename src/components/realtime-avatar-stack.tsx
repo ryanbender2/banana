@@ -1,17 +1,15 @@
 'use client';
 
+import { presenceAtom } from '@/atoms/presence';
 import { AvatarStack } from '@/components/avatar-stack';
-import { useRealtimePresenceRoom } from '@/hooks/use-realtime-presence-room';
-import { useMemo } from 'react';
+import { useAtomValue } from 'jotai';
 
-export const RealtimeAvatarStack = ({ roomName }: { roomName: string }) => {
-  const { users: usersMap } = useRealtimePresenceRoom(roomName);
-  const avatars = useMemo(() => {
-    return Object.values(usersMap).map(user => ({
-      name: user.name,
-      image: user.image,
-    }));
-  }, [usersMap]);
+export const RealtimeAvatarStack = () => {
+  const users = useAtomValue(presenceAtom);
 
-  return <AvatarStack avatars={avatars} />;
+  return (
+    <AvatarStack
+      avatars={users.map(user => ({ name: user.name, image: user.avatar }))}
+    />
+  );
 };
