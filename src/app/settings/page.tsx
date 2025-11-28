@@ -1,6 +1,6 @@
 import { HeaderNavProvider } from '@/lib/jotai';
 
-const WorldsPage: React.FC = () => {
+const SettingsPage: React.FC = () => {
   return (
     <div>
       <HeaderNavProvider
@@ -15,4 +15,4 @@ const WorldsPage: React.FC = () => {
   );
 };
 
-export default WorldsPage;
+export default SettingsPage;

@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import * as schema from './schema';
+import { env } from '@/env';
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-export const db = drizzle(process.env.DATABASE_URL!, { schema });
+export const db = drizzle(env.DATABASE_URL, { schema });
