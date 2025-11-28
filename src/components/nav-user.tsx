@@ -17,7 +17,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { supabase } from '@/utils/supabase';
+import { supabase } from '@/lib/supabase/client';
 
 export function NavUser({
   user,

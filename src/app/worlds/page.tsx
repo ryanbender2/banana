@@ -1,6 +1,6 @@
 import { HeaderNavProvider } from '@/lib/jotai';
 
-const WorldsPage: React.FC = () => {
+const WorldsPage: React.FC = async () => {
   return (
     <div>
       <HeaderNavProvider

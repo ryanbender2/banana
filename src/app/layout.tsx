@@ -10,6 +10,7 @@ import { createClient } from '@/lib/supabase/server';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import '../globals.css';
+import { ServersStateSetter } from '@/channels/servers';
 
 export const metadata: Metadata = {
   title: 'Banana',
@@ -46,6 +47,7 @@ export default async function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <StoreHydrate user={user} />
+          <ServersStateSetter />
           <RealtimeCursors roomName="banana_cursors_01" />
           <SidebarProvider
             style={

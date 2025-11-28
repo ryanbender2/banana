@@ -1,4 +1,3 @@
-import { supabase } from '@/utils/supabase';
 import {
   RealtimePresenceJoinPayload,
   RealtimePresenceLeavePayload,
@@ -6,6 +5,7 @@ import {
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect, useEffectEvent } from 'react';
 import { User, userAtom } from './user';
+import { supabase } from '@/lib/supabase/client';
 
 export const presenceAtom = atom<User[]>([]);
 

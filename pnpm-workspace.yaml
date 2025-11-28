@@ -1,4 +1,9 @@
 onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - cpu-features
   - esbuild
+  - msgpackr-extract
+  - protobufjs
   - sharp
+  - ssh2
   - unrs-resolver

@@ -1,6 +1,14 @@
-import { HeaderNavProvider } from '@/lib/jotai';
+'use client';
 
-const WorldsPage: React.FC = () => {
+import { HeaderNavProvider } from '@/lib/jotai';
+import { useAtomValue } from 'jotai';
+import { serversAtom } from '@/atoms/servers';
+
+const ServersPage: React.FC = () => {
+  const servers = useAtomValue(serversAtom);
+
+  console.log(servers);
+
   return (
     <div>
       <HeaderNavProvider
@@ -15,4 +23,4 @@ const WorldsPage: React.FC = () => {
   );
 };
 
-export default WorldsPage;
+export default ServersPage;

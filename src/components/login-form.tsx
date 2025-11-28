@@ -2,7 +2,7 @@
 
 import icon from '@/assets/icon.png';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { createClient } from '@/lib/supabase/client';
+import { supabase } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import { IconBrandDiscord } from '@tabler/icons-react';
 import { AlertCircle } from 'lucide-react';
@@ -17,7 +17,6 @@ export const LoginForm = () => {
 
   const handleSocialLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const supabase = createClient();
     setError(null);
 
     try {

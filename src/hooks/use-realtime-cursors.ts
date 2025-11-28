@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/client';
+import { supabase } from '@/lib/supabase/client';
 import {
   RealtimeChannel,
   REALTIME_SUBSCRIBE_STATES,
@@ -40,8 +40,6 @@ const useThrottleCallback = <Params extends unknown[]>(
     [callback, delay],
   );
 };
-
-const supabase = createClient();
 
 const generateRandomColor = () =>
   `hsl(${Math.floor(Math.random() * 360)}, 100%, 70%)`;
