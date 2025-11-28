@@ -45,6 +45,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <StoreHydrate user={user} />
           <RealtimeCursors roomName="banana_cursors_01" />
           <SidebarProvider
             style={
@@ -61,7 +62,6 @@ export default async function RootLayout({
             </SidebarInset>
           </SidebarProvider>
           <StateSetters />
-          <StoreHydrate user={user} />
         </ThemeProvider>
       </body>
     </html>
