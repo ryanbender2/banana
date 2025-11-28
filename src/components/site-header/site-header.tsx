@@ -1,6 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { RealtimeAvatarStack } from './realtime-avatar-stack';
+import { RealtimeAvatarStack } from '../realtime-avatar-stack';
+import NavBreadcrumbs from './components/NavBreadcrumbs';
 
 export function SiteHeader() {
   return (
@@ -11,7 +12,7 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-base font-medium">Documents</h1>
+        <NavBreadcrumbs />
         <div className="ml-auto flex items-center gap-2">
           <RealtimeAvatarStack />
         </div>
