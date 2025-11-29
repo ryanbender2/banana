@@ -92,6 +92,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      cpu-features:
+        specifier: ^0.0.10
+        version: 0.0.10
       dockerode:
         specifier: ^4.0.9
         version: 4.0.9
@@ -119,6 +122,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      pg:
+        specifier: ^8.16.3
+        version: 8.16.3
       postgres:
         specifier: ^3.4.7
         version: 3.4.7
@@ -5924,8 +5930,7 @@ snapshots:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
-  buildcheck@0.0.7:
-    optional: true
+  buildcheck@0.0.7: {}
 
   call-bind-apply-helpers@1.0.2:
     dependencies:
@@ -5998,7 +6003,6 @@ snapshots:
     dependencies:
       buildcheck: 0.0.7
       nan: 2.23.1
-    optional: true
 
   cross-spawn@7.0.6:
     dependencies:
@@ -7101,8 +7105,7 @@ snapshots:
 
   multipasta@0.2.7: {}
 
-  nan@2.23.1:
-    optional: true
+  nan@2.23.1: {}
 
   nano-spawn@2.0.0: {}
 

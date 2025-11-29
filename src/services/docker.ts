@@ -8,8 +8,14 @@ export class DockerError extends Data.TaggedError('DockerError')<{
 class DockerContainer {
   private readonly container: Dockerode.Container;
 
+  readonly id: Dockerode.Container['id'];
+  readonly modem: Dockerode.Container['modem'];
+
   constructor(container: Dockerode.Container) {
     this.container = container;
+    this.id = container.id;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    this.modem = container.modem;
   }
 
   inspect = (options?: Dockerode.ContainerInspectOptions) =>

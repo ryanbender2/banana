@@ -2,6 +2,7 @@
 
 import { serversAtom } from '@/atoms/servers';
 import * as schema from '@/db/schema';
+import { getServers } from '@/lib/servers/client-fetches';
 import { supabase } from '@/lib/supabase/client';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { InferSelectModel } from 'drizzle-orm';
@@ -53,7 +54,10 @@ export const ServersStateSetter: React.FC = () => {
     },
   );
 
+  const fetchServers = useEffectEvent(() => getServers().then(setServers));
+
   useEffect(() => {
+    fetchServers();
     const channel = subscribe(handleEvent);
     return () => {
       channel.unsubscribe();
