@@ -11,6 +11,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import '../globals.css';
 import { ServersStateSetter } from '@/channels/servers';
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Banana',
@@ -22,6 +23,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const referer = headersList.get('x-referer');
+
+  if (referer === '/auth/login') {
+    return (
+      <html lang="en" suppressHydrationWarning>
+        <body>{children}</body>
+      </html>
+    );
+  }
+
   const supabase = await createClient();
 
   const { data: authData, error } = await supabase.auth.getClaims();

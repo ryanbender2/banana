@@ -86,5 +86,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  supabaseResponse.headers.set('x-referer', request.nextUrl.pathname);
+
   return supabaseResponse;
 }
